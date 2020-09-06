@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>24.1.3-Tabs</title>
+  <style>
+    .tabs{
+      display: grid;
+    }
+    [role = "tablist"]{
+      display: grid;
+      grid-auto-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-gap: 10px;
+    }
+    [role="tabpanel"]{
+      background: yellow;
+      padding: 2rem;
+    }
+    button{
+      background: gray;
+      border: 0;
+      color: black;
+      border-radius: 5px 5px 0 0;
+      box-shadow: inset 0 -2px 5px ;
+      cursor: pointer;
+    }
+    button[area-selected="true"]{
+      background: yellow;
+      box-shadow: none;
+      color: rgba(0, 0, 0, 0.7);
+    }
+    button:focus{
+      outline: 0;
+      color: rgba(0, 0, 0, 0.6);
+    }
+    /* button[area-selected="true"]:focus{
+
+    } */
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="tabs">
+      <div role="tablist" aria-label="Programming Language">
+        <button role="tab" aria-selected="true" id="js">
+          Javascript
+        </button>
+        <button role="tab" aria-selected="false" id="ruby">
+          Ruby
+        </button>
+        <button role="tab" aria-selected="false" id="php">
+          PHP
+        </button>
+      </div>
+      <div role="tabpanel" aria-labelledby="js">
+        <p>Javascript is great</p>
+      </div>
+      <div role="tabpanel" aria-labelledby="ruby" hidden>
+        <p>Ruby is great</p>
+      </div>
+      <div role="tabpanel" aria-labelledby="php" hidden>
+        <p>PHP is great</p>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <script>
+    const tabs = document.querySelector('.tabs');
+    const tabButtuns = tabs.querySelectorAll('[role="tab"]');
+    const tabPanels =Array.form(tabs.querySelectorAll('[role="tabpanel"]'));
+
+    function handleTabClick(event){
+      tabPanels.forEach(panel => {
+        panel.hidden = true;
+      });
+      tabButtuns.forEach(tab => {
+        tab.setAttribute('area-selected', false);
+      });
+      event.curentTarget.setAttribute('area-selected', true);
+
+      const { id } = event.curentTarget;
+
+      console.log(tabPanels);
+      const tabPanel = tabPanels.find(panel => panel.getAttribute('aria-labelledby')=== id);
+      tabPanel.hidden = false;
+    }
+
+    tabButtuns.forEach(button => button.addEventListener('click',handleTabClick));
+  </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>todo list</title>
+  <style>
+    
+  </style>
+</head>
+<body>
+  <body>
+    <input type="text" />
+    <button>Add</button>
+    <div class="container"></div>
+    <script>
+      export const data = [];
+      const createItem = () => {
+        const value = document.querySelector("input").value;
+        const newItem = {
+          id: 0,
+          title: value,
+          created_at: Date.now(),
+        };
+        data.push(newItem);
+        displayItems();
+      };
+      const deleteItem = (obj) => {
+        console.log(obj);
+      };
+      const displayItems = () => {
+        const container = document.querySelector(".container");
+        container.innerHTML = "";
+        data.forEach((item) => {
+          const el = document.createElement("div");
+          el.innerHTML = item.title;
+          container.appendChild(el);
+​
+          const deleteButton = document.createElement("button");
+          deleteButton.innerText = "delete";
+          container.appendChild(deleteButton);
+          deleteButton.addEventListener("click", () => deleteItem(item));
+        });
+      };
+      document.querySelector("button").addEventListener("click", createItem);
+    </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>23.1-ticking_clock</title>
+  <style>
+    #clock {
+      font-size: 50px;
+      text-align: center;
+      padding: 200px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- div to show the time! -->
+  <div id="clock"></div>
+
+
+  <script>
+    let clock = document.getElementById('clock');
+
+    const time = () => {
+      let date = new Date();
+      let seconds = date.getSeconds();
+      let minutes = date.getMinutes();
+      let hours = date.getHours();
+      clock.textContent = hours + ":" + minutes + ":" + seconds;
+    }
+
+    
+    setInterval(time, 1000);
+  </script>
+</body>
+
+</html>

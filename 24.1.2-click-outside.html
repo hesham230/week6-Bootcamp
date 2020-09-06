@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>click outside</title>
+  <style>
+    .cards{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-gap: 20px;
+      padding: 2rem;
+
+    }
+    .card{
+      background: white;
+      padding: 1rem;
+      border-radius: 2px;
+    }
+    .card img{
+      width: 100%;
+    }
+    .modal-outer{
+      display: grid;
+      background:rgba(0, 0, 0, 0.05);
+      position:fixed;
+      height: 100vh;
+      widows: 100vw;
+      top: 0;
+      left: 0;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .modal-outer img{
+      width: 100%;
+    }
+    .modal-outer.open{
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-inner{
+      max-width: 600px;
+      min-width: 400px;
+      padding:2rem;
+      border-radius: 5px;
+      min-height: 500px;
+      background:white;
+      transform: translateY(-200%);
+      transition: transform 2s;
+    }
+    .modal-outer.open .modal-inner{
+      transform: translateY(0);
+
+    }
+  </style>
+</head>
+<body>
+  <div class="cards">
+    <div class="card" data-description="wes is cool">
+      <img src="https://picsum.photos/200?random=1" alt="wes bos">
+      <h2>wes bos</h2>
+      <button>learn more -></button>
+    </div>
+    <div class="card" data-description="hesham is cool">
+      <img src="https://picsum.photos/200?random=2" alt="wes bos">
+      <h2>hesham mousa</h2>
+      <button>learn more -></button>
+    </div>
+    <div class="card" data-description="kait is cool">
+      <img src="https://picsum.photos/200?random=3" alt="kait bos">
+      <h2>kait bos</h2>
+      <button>learn more -></button>
+    </div>
+    <div class="card" data-description="kuku is cool">
+      <img src="https://picsum.photos/200?random=4" alt="kuku bos">
+      <h2>kuku bos</h2>
+      <button>learn more -></button>
+    </div>
+  </div>
+
+
+
+  <div class="modal-outer ">
+    <div class="modal-inner">
+
+    </div>
+  </div>
+
+<script>
+  const cardButtons = document.querySelectorAll('.card button');
+const modalInner = document.querySelector('.modal-inner');
+const modalOuter = document.querySelector('.modal-outer');
+
+function handleCardButtonClick(event){
+  const button = event.currentTarget;
+  const card = button.closest('.card');
+  const imgSrc = card.querySelector('img').src;
+  const desc = card.dataset.description;
+  const name = card.querySelector('h2').textContent;
+
+  modalInner.innerHTML = `<img width="600" height="600" src =${imgSrc.replace(200,600)}" alt=
+  ${name}"/>
+  <p>${desc}</p>
+  `;
+  modalOuter.classList.add('open');
+}
+
+cardButtons.forEach(button => button.addEventListener('click',handleCardButtonClick));
+
+function closeModal(){
+  modalOuter.classList.remove('open');
+}
+
+modalOuter.addEventListener('click', function(event){
+  const iSOutSide = !event.target.closest('.modal-inner');
+  if(iSOutSide){
+    closeModal();
+  }
+})
+
+window.addEventListener('keydown', (event) =>{
+  if(event.key === 'Escape'){
+    closeModal();
+  }
+})
+</script>  
+</body>
+</html>

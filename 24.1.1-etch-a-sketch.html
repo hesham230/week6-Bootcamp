@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>24.1-etch-a-sketch</title>
+  <style>
+    body{
+      min-height: 100vh;
+      display: grid;
+      align-items: center;
+      justify-items: center;
+      background:white;
+
+    }
+
+    canvas{
+      border: 30px solid #e80000;
+      border-radius: 10px;
+      width: 800px;
+      height: 500px;
+      background:white;
+    }
+    canvas.shake{
+      animation: shake 0.5s linear 1;
+    }
+    @keyframes shake{
+      10%,
+      90%{
+        transform: translate3d(-1px, 0, 0);
+      }
+      20%,
+      80%{
+        transform: translate3d(2px, 0, 0);
+      }
+      30%,
+      50%,
+      70%{
+        transform: translate3d(-4px, 0, 0);
+      }
+      40%,
+      60%{
+        transform: translate3d(4px, 0, 0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="canvaswrap">
+    <canvas width="1600" height="1000" id="etch-a-sketch"></canvas>
+    <div class="buttons">
+      <button class="shake">Shake!</button>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.querySelector('#etch-a-sketch');
+const ctx = canvas.getContext('2d');
+const shakebuttun = document.querySelector('.shake');
+const MOVE_AMOUNT = 10;
+
+let hue = 0;
+ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+
+const {width, height} = canvas;
+
+let x = Math.floor(Math.random() * width);
+let y = Math.floor(Math.random() * height);
+
+ctx.lineJoin = 'round';
+ctx.lineCap = 'round';
+ctx.lineWidth = 10;
+
+ctx.beginPath();
+ctx.moveTo(x,y);
+ctx.lineTo(x,y);
+ctx.stroke();
+
+function draw( {key} ){
+  hue += 1;
+  ctx.strokeStyle = `hsl(${Math.random() * 360}, 100%, 50%)`;
+
+  console.log(key);
+  ctx.beginPath();
+  ctx.moveTo(x,y);
+
+  x -= MOVE_AMOUNT;
+  y -= MOVE_AMOUNT;
+
+  switch(key){
+    case 'ArrowUp':
+      y -= MOVE_AMOUNT;
+      break;
+    case 'ArrowRight':
+      x += MOVE_AMOUNT;
+      break;
+    case 'ArrowDown':
+      y += MOVE_AMOUNT;
+      break;
+    case 'ArrowLeft':
+      x -= MOVE_AMOUNT;
+      break;
+    default:
+      break;  
+  }
+
+  ctx.lineTo(x,y);
+  ctx.stroke();
+}
+
+function handleKey(e){
+  if(e.key.includes('Arrow')){
+    e.preventDefault();
+    draw({key: e.key});
+  }
+}
+
+function clearCanvas(){
+  canvas.classList.add('shake');
+  canvas.addEventListener('animationed', function(){
+    canvas.classList.remove('shake');
+  },
+  {once: true}
+  );
+}
+
+window.addEventListener('keydown',handleKey);
+shakebuttun.addEventListener('click', clearCanvas);
+  </script>
+</body>
+</html>
